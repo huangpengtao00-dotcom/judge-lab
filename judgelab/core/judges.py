@@ -104,16 +104,17 @@ class ApiJudge:
                     {"type": "text", "text": f"[evidence id={stats_key}] {json.dumps(pack.items[stats_key].payload)}"}
                 )
         try:
-            resp = httpx.post(
-                f"{self.base_url}/chat/completions",
-                headers={"Authorization": f"Bearer {self.api_key}"},
-                json={
-                    "model": self.model,
-                    "messages": [{"role": "user", "content": content}],
-                    "temperature": 0.0,
-                },
-                timeout=120,
-            )
+            # trust_env=False:绕过本机代理(HTTP(S)_PROXY 会劫持内网/网关请求,老坑)
+            with httpx.Client(trust_env=False, timeout=120) as client:
+                resp = client.post(
+                    f"{self.base_url}/chat/completions",
+                    headers={"Authorization": f"Bearer {self.api_key}"},
+                    json={
+                        "model": self.model,
+                        "messages": [{"role": "user", "content": content}],
+                        "temperature": 0.0,
+                    },
+                )
             resp.raise_for_status()
             text = resp.json()["choices"][0]["message"]["content"]
         except Exception as e:

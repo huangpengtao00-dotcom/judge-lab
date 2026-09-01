@@ -12,12 +12,13 @@ uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
 
 **第一个可运行的实验结论**(n=150 cases × 2 settings, seed=0):
 
-| 设定 | 组内 Spearman(判官分 vs 真实追色强度) |
-|---|---|
-| 自参考伪 GT(reference=同源满强度,CanonCGT 式回避协议) | **0.99** |
-| 真实设定(reference 内容 ≠ source 内容) | **0.58** |
+| 判官 | 设定 | 组内 Spearman(判官分 vs 真实追色强度) |
+|---|---|---|
+| 直方图(传统指标) | 自参考伪 GT(CanonCGT 式回避协议) | **0.99**(n=150) |
+| 直方图(传统指标) | 真实设定(reference 内容 ≠ source) | **0.58**(n=150) |
+| zero-shot VLM(gemini-vlm-judge via aigw) | 真实设定(同上) | **0.99**(M2 冒烟 n=20,20/20 解析成功,11.9s/case) |
 
-同一个直方图判官、同一批 result——只换 reference 的内容,单调性从近乎完美跌到不可用。这就是"现有指标依赖伪 GT 协议、真实追色场景无自动评测"的最小可运行证据,也是 VLM 判官要打的靶子。
+三行合起来就是论文叙事的地基:传统指标靠伪 GT 协议撑着、真实设定下崩塌;zero-shot VLM 已经能吃内容不同的设定;而文献(EditScore/JarvisEvo 消融)证明未训练的 VLM 判官会被 reward hacking 击穿、理由无证据约束——**训练过的、证据锚定的三元组判官**就是要补的最后一块。
 
 ## 结构
 
