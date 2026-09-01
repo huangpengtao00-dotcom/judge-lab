@@ -23,7 +23,7 @@ uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
 
 - `judgelab/core/` 领域无关:schema(verdict 契约,禁静默降级)、evidence(证据包+版本铁律)、judges(HistogramJudge / ApiJudge)、runner(落库+缓存+体检报告)
 - `judgelab/domains/color/` 追色合成器(Look 参数化,t=0 位级恒等,同 seed 同字节)
-- `judgelab/domains/underwater/` 占位,周末方向拍板后填
+- `judgelab/domains/underwater/` 水下退化合成器(通道衰减+背散射雾幕+深度梯度+低照,蓝/绿水两族;同一 verifiable 契约,方向相反:质量分应随 gt_strength 单调降)——**两条候选方向的数据发生器都已就绪**
 - 设计红线见 `CLAUDE.md`;方案背景见 Obsidian `16-代码架构起步-judge-lab.md`
 
 ## 下一步
