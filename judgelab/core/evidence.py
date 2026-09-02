@@ -1,6 +1,6 @@
-"""证据包:判官所见的一切。判官只准基于证据包判分,evidence_refs 必须指向这里的 id。
+"""证据包:评估器所见的一切。评估器只准基于证据包判分,evidence_refs 必须指向这里的 id。
 
-红线 6:改动任何进入判官视野的字节(直方图 bin 数、Lab 精度、图片编码参数)都要 bump 版本。
+红线 6:改动任何进入评估器视野的字节(直方图 bin 数、Lab 精度、图片编码参数)都要 bump 版本。
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from .schema import JudgeInput
 EVIDENCE_PACK_VERSION = "ev1"
 
 _HIST_BINS = 32
-_THUMB_MAX = 512  # 判官看到的图统一缩到长边 ≤512,防止超大图撑爆上下文
+_THUMB_MAX = 512  # 评估器看到的图统一缩到长边 ≤512,防止超大图撑爆上下文
 
 
 @dataclass

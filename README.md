@@ -1,6 +1,6 @@
 # judge-lab
 
-Evidence-grounded visual judges for image agents. 研究仓:可验证合成数据 → 判官协议 → 基准与证伪 → (M3) rank-GRPO 训练。
+Evidence-grounded visual judges for image agents. 研究仓:可验证合成数据 → 评估器协议 → 基准与证伪 → (M3) rank-GRPO 训练。
 
 ## 状态(2026-09-02,M0 完成)
 
@@ -8,17 +8,17 @@ Evidence-grounded visual judges for image agents. 研究仓:可验证合成数�
 uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
 ```
 
-最小闭环已通:参数化 Look 合成"追色程度已知"的三元组(零标注 verifiable 数据)→ 证据包(Lab 直方图/统计/缩略图,版本铁律)→ 判官(直方图 baseline / VLM API)→ SQLite 落库(内容指纹缓存,离线可重判)→ 单调性体检报告。
+最小闭环已通:参数化 Look 合成"追色程度已知"的三元组(零标注 verifiable 数据)→ 证据包(Lab 直方图/统计/缩略图,版本铁律)→ 评估器(直方图 baseline / VLM API)→ SQLite 落库(内容指纹缓存,离线可重判)→ 单调性体检报告。
 
 **第一个可运行的实验结论**(n=150 cases × 2 settings, seed=0):
 
-| 判官 | 设定 | 组内 Spearman(判官分 vs 真实追色强度) |
+| 评估器 | 设定 | 组内 Spearman(评估器分 vs 真实追色强度) |
 |---|---|---|
 | 直方图(传统指标) | 自参考伪 GT(CanonCGT 式回避协议) | **0.99**(n=150) |
 | 直方图(传统指标) | 真实设定(reference 内容 ≠ source) | **0.58**(n=150) |
 | zero-shot VLM(gemini-vlm-judge via aigw) | 真实设定(同上) | **0.99**(M2 冒烟 n=20,20/20 解析成功,11.9s/case) |
 
-三行合起来就是论文叙事的地基:传统指标靠伪 GT 协议撑着、真实设定下崩塌;zero-shot VLM 已经能吃内容不同的设定;而文献(EditScore/JarvisEvo 消融)证明未训练的 VLM 判官会被 reward hacking 击穿、理由无证据约束——**训练过的、证据锚定的三元组判官**就是要补的最后一块。
+三行合起来就是论文叙事的地基:传统指标靠伪 GT 协议撑着、真实设定下崩塌;zero-shot VLM 已经能吃内容不同的设定;而文献(EditScore/JarvisEvo 消融)证明未训练的 VLM 评估器会被 reward hacking 击穿、理由无证据约束——**训练过的、证据锚定的三元组评估器**就是要补的最后一块。
 
 ## 结构
 

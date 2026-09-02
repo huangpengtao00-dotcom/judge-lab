@@ -1,9 +1,9 @@
-"""参数化调色合成:造"追色程度已知"的三元组(可验证数据,判官训练/评测的地基)。
+"""参数化调色合成:造"追色程度已知"的三元组(可验证数据,评估器训练/评测的地基)。
 
 原理:一个 Look(色温/色调/gamma/饱和度/对比度/lift 的参数组合)是确定性变换。
   reference = Look 以强度 1.0 施加在图 B 上(内容与 A 不同 —— 这正是现有指标全体失效的设定)
   result    = Look 以强度 t 施加在图 A 上,t ∈ [0,1] 即"追色程度"的 ground truth
-判官对 (source=A, reference, result) 打的"色调追随"分,应当与 t 单调相关 —— 这就是零标注的可验证判据。
+评估器对 (source=A, reference, result) 打的"色调追随"分,应当与 t 单调相关 —— 这就是零标注的可验证判据。
 """
 
 from __future__ import annotations
@@ -90,7 +90,7 @@ def gen_dataset(
 
     manifest.jsonl          真实设定:reference 内容 ≠ source 内容(现有指标全体失效的设定)
     manifest_selfref.jsonl  自参考设定:reference = 同源满强度 target(CanonCGT 式伪 GT 回避协议)
-    两份共用同一批 result;同一个判官在两份上的单调性差,就是"内容混杂杀伤力"的直接测量。
+    两份共用同一批 result;同一个评估器在两份上的单调性差,就是"内容混杂杀伤力"的直接测量。
     """
     rng = np.random.default_rng(seed)
     out_dir.mkdir(parents=True, exist_ok=True)

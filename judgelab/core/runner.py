@@ -1,4 +1,4 @@
-"""Bench runner:manifest → 证据包 → 判官 → verdict 落库(SQLite)→ 报告。
+"""Bench runner:manifest → 证据包 → 评估器 → verdict 落库(SQLite)→ 报告。
 
 红线 4:证据版本、内容指纹、原始 verdict 全落库;同 (judge, evidence 版本, 内容指纹) 不重跑。
 """
@@ -96,11 +96,11 @@ class BenchRunner:
     def report_monotonic(
         self, judge_id: str, dim: str, gt_key: str = "gt_strength", group_key: str | None = None
     ) -> dict:
-        """核心报告:判官的 dim 分与合成 ground truth 的秩相关(Spearman)。
+        """核心报告:评估器的 dim 分与合成 ground truth 的秩相关(Spearman)。
 
         group_key=None:全局混排相关 —— 内容差异会污染排名,这正是要测量的失效面。
         group_key 给定:按组(如同一 Look×同一源图)内算相关再平均 —— 排除内容混杂后的
-        "纯追色强度"敏感度。两个数放在一起,就是判官的第一张体检表。
+        "纯追色强度"敏感度。两个数放在一起,就是评估器的第一张体检表。
         """
         rows = self.db.execute(
             "SELECT verdict_json, meta_json FROM verdicts WHERE judge_id=? AND status='ok'", (judge_id,)

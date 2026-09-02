@@ -63,7 +63,7 @@ def test_ciede2000_official_vectors(row):
 
 
 def test_ciede2000_vectorized_matches_scalar():
-    """(...,3) 批量路径与逐对结果位级一致(判官会批量吃像素)。"""
+    """(...,3) 批量路径与逐对结果位级一致(评估器会批量吃像素)。"""
     arr = np.array(CIEDE2000_OFFICIAL)
     batch = delta_e2000(arr[:, 0:3], arr[:, 3:6])
     scalars = np.array([delta_e2000(r[0:3], r[3:6]) for r in CIEDE2000_OFFICIAL])
@@ -112,7 +112,7 @@ def test_metrics_input_contract():
 def test_clean_beats_heavy_degradation_majority():
     """干净图分应高于重退化图(t=1.0),在多数水体下成立。
 
-    只要求多数(>1/2)而非全体:UCIQE/UIQM 本就是弱判官(本仓的被证伪对象),
+    只要求多数(>1/2)而非全体:UCIQE/UIQM 本就是弱评估器(本仓的被证伪对象),
     个别水体上翻车是预期内行为。实测 seed 0..7 两指标均 8/8。
     """
     n, wins_uciqe, wins_uiqm = 8, 0, 0

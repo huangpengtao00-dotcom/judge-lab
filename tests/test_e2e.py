@@ -1,4 +1,4 @@
-"""E2E:合成数据 → 证据包 → 直方图判官 → 落库 → 单调性报告。全程无网络、秒级。"""
+"""E2E:合成数据 → 证据包 → 直方图评估器 → 落库 → 单调性报告。全程无网络、秒级。"""
 
 import numpy as np
 import pytest
@@ -54,7 +54,7 @@ def test_e2e_histogram_judge_selfref_vs_real(tmp_path):
     stats2 = runner.run(cases, judge)
     assert stats2["judged"] == 0 and stats2["skipped_cached"] == len(cases)
 
-    # 自参考设定(reference=同源伪 GT,CanonCGT 式回避协议):直方图判官组内必须单调 —— 阳性对照
+    # 自参考设定(reference=同源伪 GT,CanonCGT 式回避协议):直方图评估器组内必须单调 —— 阳性对照
     def _grouped(case_ids: set[str]) -> float:
         import json as _json
 
@@ -75,7 +75,7 @@ def test_e2e_histogram_judge_selfref_vs_real(tmp_path):
     rho_selfref = _grouped({c.case_id for c in cases_selfref})
     rho_real = _grouped({c.case_id for c in cases})
     assert rho_selfref > 0.9, rho_selfref
-    # 真实设定(内容不同):同一判官同一批 result,单调性崩塌 —— 论文核心论点的最小可运行证据
+    # 真实设定(内容不同):同一评估器同一批 result,单调性崩塌 —— 论文核心论点的最小可运行证据
     assert rho_real < rho_selfref - 0.3, (rho_real, rho_selfref)
 
     # 证据版本铁律字段在库里

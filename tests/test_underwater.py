@@ -41,4 +41,4 @@ def test_dataset_contract(tmp_path):
 
     row = json.loads(lines[0])
     assert set(row) >= {"case_id", "source", "result", "gt_strength", "group", "water"}
-    assert "reference" not in row  # 水下契约:无参考图,判官吃 (source, result) 或仅 result
+    assert "reference" not in row  # 水下契约:无参考图,评估器吃 (source, result) 或仅 result

@@ -1,4 +1,4 @@
-"""M2 小样本冒烟:VLM zero-shot 判官 × 合成追色集,硬闸 ≤20 条(红线 3)。
+"""M2 小样本冒烟:VLM zero-shot 评估器 × 合成追色集,硬闸 ≤20 条(红线 3)。
 
 用法(出口自选,填对应 env):
   JUDGE_API_BASE=http://127.0.0.1:3001/v1 JUDGE_API_MODEL=<vision模型> JUDGE_API_KEY=<key> \

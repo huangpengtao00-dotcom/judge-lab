@@ -1,11 +1,11 @@
-"""参数化水下退化合成:造"退化程度已知"的图像对(水下判官的可验证数据)。
+"""参数化水下退化合成:造"退化程度已知"的图像对(水下评估器的可验证数据)。
 
 物理直觉(简化的水下成像模型,Jaffe-McGlamery 一族的常用近似):
   I(x) = J(x) * t_c(x) + B_c * (1 - t_c(x))
   —— 直射光按通道衰减(红光最先被吃掉),剩下的被水体背散射的"雾幕"填充。
 本合成器把它参数化成 Water(衰减系数/水色/雾幕强度/低照),以强度 t ∈ [0,1] 施加:
   result = degrade(source, water, t),t 即"退化程度"的 ground truth。
-判官对 result 打的"感知质量"分应随 t 单调下降 —— 零标注的可验证判据,
+评估器对 result 打的"感知质量"分应随 t 单调下降 —— 零标注的可验证判据,
 与 color 域的 Look/t 完全同构(manifest 契约一致:source=干净图,result=退化图,无 reference)。
 
 注意(红线 2):本文件只管造数据;UIQM/UCIQE 等被证伪对象的复现必须按原论文公式
@@ -83,7 +83,7 @@ def gen_dataset(
     seed: int = 0,
 ) -> Path:
     """产出 (source=干净图, result=退化图) 数据集 + manifest.jsonl(gt_strength=退化程度)。
-    判官契约:感知质量分应随 gt_strength 单调下降(注意方向与 color 域相反)。"""
+    评估器契约:感知质量分应随 gt_strength 单调下降(注意方向与 color 域相反)。"""
     rng = np.random.default_rng(seed)
     out_dir.mkdir(parents=True, exist_ok=True)
     imgs = [gen_test_image(rng) for _ in range(n_images)]

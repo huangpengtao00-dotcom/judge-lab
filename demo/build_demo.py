@@ -9,7 +9,7 @@ d = json.loads((HERE / "demo_data.json").read_text())
 
 
 def svg_curves() -> str:
-    """两条判官分-vs-真实强度曲线,内联 SVG,坐标脚本算。"""
+    """两条评估器分-vs-真实强度曲线,内联 SVG,坐标脚本算。"""
     w, h, pad = 460, 260, 44
     ts = [0.0, 0.25, 0.5, 0.75, 1.0]
 
@@ -34,7 +34,7 @@ def svg_curves() -> str:
   <line x1="{pad}" y1="{pad}" x2="{pad}" y2="{h - pad}" stroke="#94a3b8"/>
   {axis_ticks}{y_ticks}
   <text x="{w / 2}" y="{h - 6}" text-anchor="middle" class="lbl">真实追色强度 t(合成时已知)</text>
-  <text x="14" y="{h / 2}" text-anchor="middle" class="lbl" transform="rotate(-90 14 {h / 2})">判官打分(均值)</text>
+  <text x="14" y="{h / 2}" text-anchor="middle" class="lbl" transform="rotate(-90 14 {h / 2})">评估器打分(均值)</text>
   <polyline points="{pts(d['curve_selfref'])}" fill="none" stroke="#059669" stroke-width="3"/>
   <polyline points="{pts(d['curve_real'])}" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="7 4"/>
   <text x="{w - pad}" y="{pad - 4}" text-anchor="end" class="leg" fill="#059669">伪GT设定 ρ={d['rho_selfref']}</text>
@@ -77,15 +77,15 @@ code{{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:12.5px}}
 </div>
 
 <div class="card">
-<h2>③ 那 VLM 直接当判官行不行?(20 条实测)</h2>
-<div class="pt">zero-shot VLM 判官在同一真实设定下:<span class="big g">ρ=0.99</span>(20/20 解析成功,约 12s/条)—— VLM 是对的底座。<br>
-但文献已证明<b>未训练的 VLM 判官会被刷分击穿</b>(JarvisEvo 消融:静态大模型当 reward,训到后期自评分升、真实质量降),理由也无证据约束。</div>
+<h2>③ 那 VLM 直接当评估器行不行?(20 条实测)</h2>
+<div class="pt">zero-shot VLM 评估器在同一真实设定下:<span class="big g">ρ=0.99</span>(20/20 解析成功,约 12s/条)—— VLM 是对的底座。<br>
+但文献已证明<b>未训练的 VLM 评估器会被刷分击穿</b>(JarvisEvo 消融:静态大模型当 reward,训到后期自评分升、真实质量降),理由也无证据约束。</div>
 </div>
 
 <div class="card">
 <h2>④ 复现与结论</h2>
 <p><code>cd ~/research/judge-lab && uv run pytest -q</code>(含本对比的断言)· n=150×2 设定 + 20 条 VLM 冒烟,seed=0,零人工标注 —— 数据由参数化 Look 程序化合成,答案天然已知。</p>
-<div class="pt">三步链条:传统指标真实设定下崩(0.58)→ zero-shot VLM 能扛(0.99)但可被刷、无证据 → 要做的是<b>训练过的、吃三元组、每一分都带证据引用</b>的判官。</div>
+<div class="pt">三步链条:传统指标真实设定下崩(0.58)→ zero-shot VLM 能扛(0.99)但可被刷、无证据 → 要做的是<b>训练过的、吃三元组、每一分都带证据引用</b>的评估器。</div>
 </div>
 </body></html>"""
 

@@ -1,9 +1,9 @@
-"""判官实现:统一 Judge 接口。
+"""评估器实现:统一 Judge 接口。
 
-- HistogramJudge:传统指标判官(Lab 直方图相似度)。它既是 E2E 冒烟的零成本判官,
+- HistogramJudge:传统指标评估器(Lab 直方图相似度)。它既是 E2E 冒烟的零成本评估器,
   也是论文里"传统指标 baseline"的正式实现之一 —— 它在"内容不同"的设定下会犯的错,
   正是我们要系统展示的。
-- ApiJudge:VLM 判官,走 OpenAI 兼容网关。红线 3:放量前先小样本。
+- ApiJudge:VLM 评估器,走 OpenAI 兼容网关。红线 3:放量前先小样本。
 """
 
 from __future__ import annotations
@@ -73,7 +73,7 @@ class HistogramJudge:
 
 
 class ApiJudge:
-    """VLM 判官。base_url/model 从 env 取(JUDGE_API_BASE / JUDGE_API_MODEL / JUDGE_API_KEY)。
+    """VLM 评估器。base_url/model 从 env 取(JUDGE_API_BASE / JUDGE_API_MODEL / JUDGE_API_KEY)。
     解析失败 → judge_parse_failure;evidence_refs 引用不存在的证据 id → 同样判失败(防编造理由)。"""
 
     def __init__(self, prompt: str, dims: tuple[str, ...], judge_id: str | None = None):
