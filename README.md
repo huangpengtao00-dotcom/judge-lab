@@ -16,7 +16,7 @@ uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
 |---|---|---|
 | 直方图(传统指标) | 自参考伪 GT(CanonCGT 式回避协议) | **0.99**(n=150) |
 | 直方图(传统指标) | 真实设定(reference 内容 ≠ source) | **0.58**(n=150) |
-| zero-shot VLM(gemini-vlm-judge via aigw) | 真实设定(同上) | **0.99**(M2 冒烟 n=20,20/20 解析成功,11.9s/case) |
+| zero-shot VLM(Gemini 系视觉模型,经 OpenAI 兼容网关) | 真实设定(同上) | **0.99**(M2 冒烟 n=20,20/20 解析成功,11.9s/case) |
 
 三行合起来就是论文叙事的地基:传统指标靠伪 GT 协议撑着、真实设定下崩塌;zero-shot VLM 已经能吃内容不同的设定;而文献(EditScore/JarvisEvo 消融)证明未训练的 VLM 评估器会被 reward hacking 击穿、理由无证据约束——**训练过的、证据锚定的三元组评估器**就是要补的最后一块。
 
@@ -25,7 +25,7 @@ uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
 - `judgelab/core/` 领域无关:schema(verdict 契约,禁静默降级)、evidence(证据包+版本铁律)、judges(HistogramJudge / ApiJudge)、runner(落库+缓存+体检报告)
 - `judgelab/domains/color/` 追色合成器(Look 参数化,t=0 位级恒等,同 seed 同字节)
 - `judgelab/domains/underwater/` 水下退化合成器(通道衰减+背散射雾幕+深度梯度+低照,蓝/绿水两族;同一 verifiable 契约,方向相反:质量分应随 gt_strength 单调降)——**两条候选方向的数据发生器都已就绪**
-- 设计红线见 `CLAUDE.md`;方案背景见 Obsidian `16-代码架构起步-judge-lab.md`
+- 设计红线见 `CLAUDE.md`
 
 ## 下一步
 
