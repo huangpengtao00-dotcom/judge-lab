@@ -2,10 +2,10 @@
 
 Evidence-grounded visual judges for image agents. 研究仓:可验证合成数据 → 评估器协议 → 基准与证伪 → (M3) rank-GRPO 训练。
 
-## 状态(2026-09-02,M0 完成)
+## 状态(M0 完成,测试数 2026-09-25 复核)
 
 ```bash
-uv pip install -e ".[test]" && uv run pytest -q   # 4 passed
+uv pip install -e ".[test]" && uv run pytest -q   # 48 passed
 ```
 
 最小闭环已通:参数化 Look 合成"追色程度已知"的三元组(零标注 verifiable 数据)→ 证据包(Lab 直方图/统计/缩略图,版本铁律)→ 评估器(直方图 baseline / VLM API)→ SQLite 落库(内容指纹缓存,离线可重判)→ 单调性体检报告。
